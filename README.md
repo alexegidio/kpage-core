@@ -1,2 +1,2 @@
 # kpage-core
-Pagination utility to handle database pagination betweenn clusters
+Pagination utility to handle database pagination between clusters
