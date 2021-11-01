@@ -1,5 +1,6 @@
 package org.afirikaofe.kpage.core.database;
 
+import org.afirikaofe.kpage.core.exception.UnrecoverableException;
 import org.afirikaofe.kpage.core.model.Page;
 
 import java.sql.Connection;
@@ -9,7 +10,6 @@ import java.sql.Statement;
 
 public class DataBasePageFetcher implements PageFetcher {
 
-    //TODO customize column names
     private final static String queryTaskByName = "SELECT %s, %s FROM PAGINATION WHERE TASK_NAME=%s";
 
     private String taskNameColumn;
@@ -37,10 +37,8 @@ public class DataBasePageFetcher implements PageFetcher {
             page.setFirstPage(rs.getInt(1));
             return page;
         } catch (SQLException e) {
-            //TODO HANDLE EXCEPTION
-            e.printStackTrace();
+            throw new UnrecoverableException("Wasn't able to connect to database. Check your database setup!", e);
         }
-        return null;
     }
 
     private String getLastColumn() {
@@ -58,7 +56,8 @@ public class DataBasePageFetcher implements PageFetcher {
     }
 
     private Connection getConnection() {
-        //TODO implement connection
-        return null;
+        ConnectionProvider connectionProvider = ConnectionStrategy.getInstance().retrieveConnectionProvider(Configuration.getInstance().
+                getDatabaseProvider());
+        return connectionProvider.getConnection();
     }
 }

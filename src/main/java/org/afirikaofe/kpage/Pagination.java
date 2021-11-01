@@ -1,8 +1,12 @@
 package org.afirikaofe.kpage;
 
+import org.afirikaofe.kpage.core.database.Configuration;
 import org.afirikaofe.kpage.core.database.PageFetcher;
 import org.afirikaofe.kpage.core.database.DataBasePageFetcher;
 import org.afirikaofe.kpage.core.model.Page;
+import org.afirikaofe.kpage.infrastructure.PropertiesLoader;
+
+import java.util.Properties;
 
 public class Pagination {
 
@@ -10,6 +14,7 @@ public class Pagination {
 
     public Pagination() {
         pageFetcher = new DataBasePageFetcher();
+        initConfiguration();
     }
 
     public Pagination(PageFetcher pageFetcher) {
@@ -21,4 +26,10 @@ public class Pagination {
         page.setFinalPage(page.getFirstPage() + pageSize);
         return page;
     }
+
+
+    private void initConfiguration() {
+        Configuration.getInstance().setDbName(PropertiesLoader.getInstance().getProperty(""));
+    }
+
 }
